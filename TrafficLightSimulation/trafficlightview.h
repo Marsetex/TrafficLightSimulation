@@ -1,12 +1,15 @@
 #ifndef TRAFFICLIGHTVIEW_H
 #define TRAFFICLIGHTVIEW_H
 
+#include <iostream>
+
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QColor>
 
 namespace Ui {
-class TrafficLightView;
+    class TrafficLightView;
 }
 
 class TrafficLightView : public QMainWindow
@@ -16,10 +19,11 @@ class TrafficLightView : public QMainWindow
     public:
         explicit TrafficLightView(QWidget *parent = 0);
         ~TrafficLightView();
+        void drawTrafficLights(QColor redLight, QColor yellowLight, QColor greenLight);
 
     private:
-        Ui::TrafficLightView *ui;
-        QGraphicsScene *scene;
+        Ui::TrafficLightView* ui;
+        QGraphicsScene* scene;
 };
 
 #endif // TRAFFICLIGHTVIEW_H

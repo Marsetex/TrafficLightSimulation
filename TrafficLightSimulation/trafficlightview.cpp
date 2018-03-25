@@ -7,27 +7,30 @@ TrafficLightView::TrafficLightView(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QGraphicsScene* scene2 = new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene2);
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
 
-    QBrush redBrush(Qt::SolidPattern);
-    redBrush.setColor(Qt::red);
-
-    QBrush yellowBrush(Qt::SolidPattern);
-    yellowBrush.setColor(Qt::yellow);
-
-    QBrush greenBrush(Qt::SolidPattern);
-    greenBrush.setColor(Qt::green);
-
-    QPen pen(Qt::black);
-    pen.setWidth(1);
-
-    scene2->addEllipse(40, 25, 150, 150, pen, redBrush);
-    scene2->addEllipse(40, 200, 150, 150, pen, yellowBrush);
-    scene2->addEllipse(40, 375, 150, 150, pen, greenBrush);
+    QColor red(255, 0, 0);
+    QColor yellow(255, 255, 0);
+    QColor green(0, 255, 0);
+    drawTrafficLights(red, yellow, green);
 }
 
 TrafficLightView::~TrafficLightView()
 {
     delete ui;
+}
+
+void TrafficLightView::drawTrafficLights(QColor redLight, QColor yellowLight, QColor greenLight)
+{
+    QBrush redBrush(redLight, Qt::SolidPattern);
+    QBrush yellowBrush(yellowLight, Qt::SolidPattern);
+    QBrush greenBrush(greenLight, Qt::SolidPattern);
+    QPen pen(Qt::black);
+
+    scene->addEllipse(40, 25, 150, 150, pen, redBrush);
+    scene->addEllipse(40, 200, 150, 150, pen, yellowBrush);
+    scene->addEllipse(40, 375, 150, 150, pen, greenBrush);
+
+    //std::cout << "Redrawn traffic lights.";
 }
