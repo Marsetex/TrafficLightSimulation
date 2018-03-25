@@ -3,9 +3,10 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    TrafficLightView w;
-    w.show();
+    QApplication app(argc, argv);
 
-    return a.exec();
+    TrafficLightView view;
+    view.show();
+
+    return app.exec();
 }
