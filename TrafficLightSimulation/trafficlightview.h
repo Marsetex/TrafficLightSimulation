@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QMessageBox>
 #include <QColor>
 
 namespace Ui {
@@ -24,6 +25,11 @@ class TrafficLightView : public QMainWindow
     private:
         Ui::TrafficLightView* ui;
         QGraphicsScene* scene;
+
+    private slots:
+        void showAboutDialog();
+        void stopApplication();
+
 };
 
 #endif // TRAFFICLIGHTVIEW_H

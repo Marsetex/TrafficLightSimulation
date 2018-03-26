@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>TrafficLightView</string>
+   <string>Traffic Light Simulation</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGraphicsView" name="graphicsView">
@@ -41,20 +41,20 @@ border: transparent;</string>
    </property>
    <widget class="QMenu" name="menuTraffic_Light">
     <property name="title">
-     <string>Traffic Light</string>
+     <string>File</string>
     </property>
-    <addaction name="actionAbout"/>
+    <addaction name="menuItemAbout"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
+    <addaction name="menuItemExit"/>
    </widget>
    <addaction name="menuTraffic_Light"/>
   </widget>
-  <action name="actionExit">
+  <action name="menuItemExit">
    <property name="text">
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionAbout">
+  <action name="menuItemAbout">
    <property name="text">
     <string>About</string>
    </property>
