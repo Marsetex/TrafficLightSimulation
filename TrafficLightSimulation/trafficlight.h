@@ -1,11 +1,33 @@
-#ifndef TRAFFICLIGHTCONTROLLER_H
-#define TRAFFICLIGHTCONTROLLER_H
+#ifndef TrafficLight_H
+#define TrafficLight_H
 
+#include "trafficlightview.h"
 
-class TrafficLightController
+#include <iostream>
+
+#include <QTimer>
+#include <QState>
+#include <QStateMachine>
+
+class TrafficLight : QObject
 {
-public:
-    TrafficLightController();
+    Q_OBJECT
+
+    public:
+        explicit TrafficLight(QObject* parent = nullptr);
+        ~TrafficLight();
+        void setView(TrafficLightView* view);
+
+    private:
+        TrafficLightView* view;
+        QTimer* timer;
+
+    public slots:
+        void draw1();
+        void draw2();
+        void draw3();
+        void draw4();
+
 };
 
-#endif // TRAFFICLIGHTCONTROLLER_H
+#endif // TrafficLight_H
