@@ -1,5 +1,7 @@
 #include "trafficlight.h"
 
+#include <QPropertyAnimation>
+
 TrafficLight::TrafficLight(TrafficLightView* view)
 {
     TrafficLightColorFactory* colorFactory = new TrafficLightColorFactory();
@@ -48,6 +50,7 @@ TrafficLight::TrafficLight(TrafficLightView* view)
 
     machine->addState(trafficLightActive);
     machine->addState(debugModeActive);
+    machine->addDefaultAnimation(new QPropertyAnimation(label, "styleSheet"));
 
     machine->setInitialState(trafficLightActive);
     machine->start();
