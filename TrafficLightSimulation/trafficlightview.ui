@@ -49,6 +49,9 @@ border: transparent;</string>
     <property name="text">
      <string>TextLabel</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -68,7 +71,14 @@ border: transparent;</string>
     <addaction name="separator"/>
     <addaction name="menuItemExit"/>
    </widget>
+   <widget class="QMenu" name="menuDebug">
+    <property name="title">
+     <string>Debug</string>
+    </property>
+    <addaction name="menuItemStartDebug"/>
+   </widget>
    <addaction name="menuTraffic_Light"/>
+   <addaction name="menuDebug"/>
   </widget>
   <action name="menuItemExit">
    <property name="text">
@@ -78,6 +88,11 @@ border: transparent;</string>
   <action name="menuItemAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="menuItemStartDebug">
+   <property name="text">
+    <string>Start debugging</string>
    </property>
   </action>
  </widget>

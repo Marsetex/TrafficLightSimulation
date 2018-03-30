@@ -7,7 +7,10 @@
 #include "trafficlightcolorfactory.h"
 
 #include <QStateMachine>
+#include <QState>
+#include <QHistoryState>
 #include <QLabel>
+#include <QAction>
 
 class TrafficLight
 {

@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMessageBox>
+#include <QAction>
 #include <QColor>
 
 namespace Ui {
@@ -22,6 +23,7 @@ class TrafficLightView : public QMainWindow
         explicit TrafficLightView(QWidget *parent = 0);
         ~TrafficLightView();
         QLabel* getStateOutputLabel();
+        QAction* getDebugStartAction();
         void drawTrafficLights(TrafficLightColor* color);
 
     private:

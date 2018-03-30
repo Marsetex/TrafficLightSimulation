@@ -4,19 +4,26 @@ TrafficLight::TrafficLight(TrafficLightView* view)
 {
     TrafficLightColorFactory* colorFactory = new TrafficLightColorFactory();
     QLabel* label = view->getStateOutputLabel();
+    QAction* startDebugAction = view->getDebugStartAction();
+
     QStateMachine* machine = new QStateMachine();
 
+    QState* trafficLightActive = new QState();
+    QState* debugModeActive = new QState();
+
+    QHistoryState* trafficLightActiveHistory = new QHistoryState(trafficLightActive);
+
     TrafficLightColor* redOnColor = colorFactory->getTrafficLightColorStateRed();
-    TrafficLightState* redOn = new TrafficLightState(view, redOnColor, 1000);
+    TrafficLightState* redOn = new TrafficLightState(view, redOnColor, 1000, trafficLightActive);
 
     TrafficLightColor* redYellowOnColor = colorFactory->getTrafficLightColorStateRedYellow();
-    TrafficLightState* redYellowOn = new TrafficLightState(view, redYellowOnColor, 2000);
+    TrafficLightState* redYellowOn = new TrafficLightState(view, redYellowOnColor, 2000, trafficLightActive);
 
     TrafficLightColor* greenOnColor = colorFactory->getTrafficLightColorStateGreen();
-    TrafficLightState* greenOn = new TrafficLightState(view, greenOnColor, 3000);
+    TrafficLightState* greenOn = new TrafficLightState(view, greenOnColor, 3000, trafficLightActive);
 
     TrafficLightColor* yellowOnColor = colorFactory->getTrafficLightColorStateYellow();
-    TrafficLightState* yellowOn = new TrafficLightState(view, yellowOnColor, 1000);
+    TrafficLightState* yellowOn = new TrafficLightState(view, yellowOnColor, 1000, trafficLightActive);
 
     redOn->assignProperty(label, "text", "Rot");
     redOn->addTransition(redOn, SIGNAL(finished()), redYellowOn);
@@ -30,11 +37,18 @@ TrafficLight::TrafficLight(TrafficLightView* view)
     yellowOn->assignProperty(label, "text", "Gelb");
     yellowOn->addTransition(yellowOn, SIGNAL(finished()), redOn);
 
-    machine->addState(redOn);
-    machine->addState(redYellowOn);
-    machine->addState(yellowOn);
-    machine->addState(greenOn);
+    trafficLightActive->setInitialState(redOn);
 
-    machine->setInitialState(redOn);
+    trafficLightActive->assignProperty(label, "styleSheet", "background-color:rgb(255, 255, 255);");
+    trafficLightActive->addTransition(startDebugAction, SIGNAL(triggered(bool)), debugModeActive);
+
+    debugModeActive->assignProperty(label, "styleSheet", "background-color:rgb(255,0,0);");
+    debugModeActive->assignProperty(label, "text", "Debug mode");
+    debugModeActive->addTransition(startDebugAction, SIGNAL(triggered(bool)), trafficLightActiveHistory);
+
+    machine->addState(trafficLightActive);
+    machine->addState(debugModeActive);
+
+    machine->setInitialState(trafficLightActive);
     machine->start();
 }

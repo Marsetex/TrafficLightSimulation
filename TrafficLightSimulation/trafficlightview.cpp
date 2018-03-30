@@ -30,6 +30,10 @@ QLabel* TrafficLightView::getStateOutputLabel() {
     return ui->stateOutputLabel;
 }
 
+QAction* TrafficLightView::getDebugStartAction() {
+    return ui->menuItemStartDebug;
+}
+
 void TrafficLightView::drawTrafficLights(TrafficLightColor* color)
 {
     QBrush redBrush(*(color->getRedColor()), Qt::SolidPattern);
