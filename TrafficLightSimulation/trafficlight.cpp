@@ -1,86 +1,40 @@
 #include "trafficlight.h"
 
-TrafficLight::TrafficLight(QObject* parent) : QObject(parent)
-{   
-    timer = new QTimer();
-    timer->setInterval(2000);
-    timer->setSingleShot(true);
+TrafficLight::TrafficLight(TrafficLightView* view)
+{
+    TrafficLightColorFactory* colorFactory = new TrafficLightColorFactory();
+    QLabel* label = view->getStateOutputLabel();
+    QStateMachine* machine = new QStateMachine();
 
-    QStateMachine *machine = new QStateMachine(NULL);
+    TrafficLightColor* redOnColor = colorFactory->getTrafficLightColorStateRed();
+    TrafficLightState* redOn = new TrafficLightState(view, redOnColor, 1000);
 
-    QState* red = new QState();
-    QState* redYellow = new QState();
-    QState* green = new QState();
-    QState* yellow = new QState();
+    TrafficLightColor* redYellowOnColor = colorFactory->getTrafficLightColorStateRedYellow();
+    TrafficLightState* redYellowOn = new TrafficLightState(view, redYellowOnColor, 2000);
 
-    //s1->assignProperty(timer, "text", "Outside");
-    red->addTransition(timer, SIGNAL(timeout()), redYellow);
-    connect(red, SIGNAL(entered()), this, SLOT(draw1()));
+    TrafficLightColor* greenOnColor = colorFactory->getTrafficLightColorStateGreen();
+    TrafficLightState* greenOn = new TrafficLightState(view, greenOnColor, 3000);
 
-    //s2->assignProperty(button, "text", "Inside");
-    redYellow->addTransition(timer, SIGNAL(timeout()), green);
-    connect(redYellow, SIGNAL(entered()), this, SLOT(draw2()));
+    TrafficLightColor* yellowOnColor = colorFactory->getTrafficLightColorStateYellow();
+    TrafficLightState* yellowOn = new TrafficLightState(view, yellowOnColor, 1000);
 
-    //s3->assignProperty(button, "text", "Pressing...");
-    green->addTransition(timer, SIGNAL(timeout()), yellow);
-    connect(green, SIGNAL(entered()), this, SLOT(draw3()));
+    redOn->assignProperty(label, "text", "Rot");
+    redOn->addTransition(redOn, SIGNAL(finished()), redYellowOn);
 
-    //s3->assignProperty(button, "text", "Pressing...");
-    yellow->addTransition(timer, SIGNAL(timeout()), red);
-    connect(yellow, SIGNAL(entered()), this, SLOT(draw4()));
+    redYellowOn->assignProperty(label, "text", "Rot-Gelb");
+    redYellowOn->addTransition(redYellowOn, SIGNAL(finished()), greenOn);
 
-    machine->addState(red);
-    machine->addState(redYellow);
-    machine->addState(yellow);
-    machine->addState(green);
+    greenOn->assignProperty(label, "text", "Grün");
+    greenOn->addTransition(greenOn, SIGNAL(finished()), yellowOn);
 
-    machine->setInitialState(red);
+    yellowOn->assignProperty(label, "text", "Gelb");
+    yellowOn->addTransition(yellowOn, SIGNAL(finished()), redOn);
+
+    machine->addState(redOn);
+    machine->addState(redYellowOn);
+    machine->addState(yellowOn);
+    machine->addState(greenOn);
+
+    machine->setInitialState(redOn);
     machine->start();
-    timer->start();
-}
-
-TrafficLight::~TrafficLight()
-{
-    delete timer;
-}
-
-void TrafficLight::setView(TrafficLightView* view)
-{
-    this->view = view;
-}
-
-void TrafficLight::draw1()
-{
-    QColor red(255, 0, 0, 255);
-    QColor yellow(255, 255, 0, 50);
-    QColor green(0, 255, 0, 50);
-    view->drawTrafficLights(red, yellow, green);
-    timer->start();
-}
-
-void TrafficLight::draw2()
-{
-    QColor red(255, 0, 0, 255);
-    QColor yellow(255, 255, 0, 255);
-    QColor green(0, 255, 0, 50);
-    view->drawTrafficLights(red, yellow, green);
-    timer->start();
-}
-
-void TrafficLight::draw3()
-{
-    QColor red(255, 0, 0, 50);
-    QColor yellow(255, 255, 0, 50);
-    QColor green(0, 255, 0, 255);
-    view->drawTrafficLights(red, yellow, green);
-    timer->start();
-}
-
-void TrafficLight::draw4()
-{
-    QColor red(255, 0, 0, 50);
-    QColor yellow(255, 255, 0, 255);
-    QColor green(0, 255, 0, 50);
-    view->drawTrafficLights(red, yellow, green);
-    timer->start();
 }

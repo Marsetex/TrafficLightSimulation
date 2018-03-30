@@ -2,31 +2,17 @@
 #define TrafficLight_H
 
 #include "trafficlightview.h"
+#include "trafficlightstate.h"
+#include "trafficlightcolor.h"
+#include "trafficlightcolorfactory.h"
 
-#include <iostream>
-
-#include <QTimer>
-#include <QState>
 #include <QStateMachine>
+#include <QLabel>
 
-class TrafficLight : QObject
+class TrafficLight
 {
-    Q_OBJECT
-
     public:
-        explicit TrafficLight(QObject* parent = nullptr);
-        ~TrafficLight();
-        void setView(TrafficLightView* view);
-
-    private:
-        TrafficLightView* view;
-        QTimer* timer;
-
-    public slots:
-        void draw1();
-        void draw2();
-        void draw3();
-        void draw4();
+        TrafficLight(TrafficLightView* view);
 
 };
 

@@ -10,8 +10,7 @@ int main(int argc, char *argv[])
     TrafficLightView view;
     view.show();
 
-    TrafficLight trafficLight(NULL);
-    trafficLight.setView(&view);
+    TrafficLight trafficLight(&view);
 
     return app.exec();
 }

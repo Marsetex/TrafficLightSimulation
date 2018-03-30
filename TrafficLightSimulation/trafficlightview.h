@@ -1,7 +1,8 @@
 #ifndef TRAFFICLIGHTVIEW_H
 #define TRAFFICLIGHTVIEW_H
 
-#include <iostream>
+#include "trafficlightcolorfactory.h"
+#include "trafficlightcolor.h"
 
 #include <QMainWindow>
 #include <QGraphicsScene>
@@ -20,7 +21,8 @@ class TrafficLightView : public QMainWindow
     public:
         explicit TrafficLightView(QWidget *parent = 0);
         ~TrafficLightView();
-        void drawTrafficLights(QColor redLight, QColor yellowLight, QColor greenLight);
+        QLabel* getStateOutputLabel();
+        void drawTrafficLights(TrafficLightColor* color);
 
     private:
         Ui::TrafficLightView* ui;
