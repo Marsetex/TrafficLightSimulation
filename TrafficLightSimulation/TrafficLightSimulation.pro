@@ -26,11 +26,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         trafficlightview.cpp \
-    trafficlight.cpp
+    trafficlight.cpp \
+    trafficlightstate.cpp \
+    trafficlightcolor.cpp \
+    trafficlightcolorfactory.cpp
 
 HEADERS += \
         trafficlightview.h \
-    trafficlight.h
+    trafficlight.h \
+    trafficlightstate.h \
+    trafficlightcolor.h \
+    trafficlightcolorfactory.h
 
 FORMS += \
         trafficlightview.ui
