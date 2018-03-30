@@ -29,14 +29,18 @@ SOURCES += \
     trafficlight.cpp \
     trafficlightstate.cpp \
     trafficlightcolor.cpp \
-    trafficlightcolorfactory.cpp
+    trafficlightcolorfactory.cpp \
+    passwordtransition.cpp \
+    passwordevent.cpp
 
 HEADERS += \
         trafficlightview.h \
     trafficlight.h \
     trafficlightstate.h \
     trafficlightcolor.h \
-    trafficlightcolorfactory.h
+    trafficlightcolorfactory.h \
+    passwordtransition.h \
+    passwordevent.h
 
 FORMS += \
         trafficlightview.ui
