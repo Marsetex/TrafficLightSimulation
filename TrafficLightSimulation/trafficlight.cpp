@@ -1,19 +1,42 @@
 #include "trafficlight.h"
 
-#include <QPropertyAnimation>
-
-TrafficLight::TrafficLight(TrafficLightView* view)
+TrafficLight::TrafficLight(TrafficLightView* view, QObject *parent) : QObject(parent)
 {
-    TrafficLightColorFactory* colorFactory = new TrafficLightColorFactory();
+    machine = new QStateMachine();
+
     QLabel* label = view->getStateOutputLabel();
     QAction* startDebugAction = view->getDebugStartAction();
+    QAction* stopDebugAction = view->getDebugStopAction();
 
-    QStateMachine* machine = new QStateMachine();
+    connect(startDebugAction, SIGNAL(triggered(bool)), this, SLOT(startDebugClicked()));
 
     QState* trafficLightActive = new QState();
     QState* debugModeActive = new QState();
-
     QHistoryState* trafficLightActiveHistory = new QHistoryState(trafficLightActive);
+
+    configureTrafficLightMachine(trafficLightActive, view);
+
+    PasswordTransition* transition = new PasswordTransition("Hello");
+    transition->setTargetState(debugModeActive);
+    trafficLightActive->addTransition(transition);
+    trafficLightActive->assignProperty(label, "styleSheet", "background-color:rgb(255, 255, 255);");
+
+    debugModeActive->assignProperty(label, "styleSheet", "background-color:rgb(255,0,0);");
+    debugModeActive->assignProperty(label, "text", "Debug mode");
+    debugModeActive->addTransition(stopDebugAction, SIGNAL(triggered(bool)), trafficLightActiveHistory);
+
+    machine->addState(trafficLightActive);
+    machine->addState(debugModeActive);
+    machine->addDefaultAnimation(new QPropertyAnimation(label, "styleSheet"));
+
+    machine->setInitialState(trafficLightActive);
+    machine->start();
+}
+
+void TrafficLight::configureTrafficLightMachine(QState* trafficLightActive, TrafficLightView* view)
+{
+    TrafficLightColorFactory* colorFactory = new TrafficLightColorFactory();
+    QLabel* label = view->getStateOutputLabel();
 
     TrafficLightColor* redOnColor = colorFactory->getTrafficLightColorStateRed();
     TrafficLightState* redOn = new TrafficLightState(view, redOnColor, 1000, trafficLightActive);
@@ -40,18 +63,14 @@ TrafficLight::TrafficLight(TrafficLightView* view)
     yellowOn->addTransition(yellowOn, SIGNAL(finished()), redOn);
 
     trafficLightActive->setInitialState(redOn);
+}
 
-    trafficLightActive->assignProperty(label, "styleSheet", "background-color:rgb(255, 255, 255);");
-    trafficLightActive->addTransition(startDebugAction, SIGNAL(triggered(bool)), debugModeActive);
+void TrafficLight::startDebugClicked()
+{
+    bool okClicked;
+    QString text = QInputDialog::getText(NULL, tr("Enter the password for debug mode"), tr("Password:"), QLineEdit::Normal, "", &okClicked);
 
-    debugModeActive->assignProperty(label, "styleSheet", "background-color:rgb(255,0,0);");
-    debugModeActive->assignProperty(label, "text", "Debug mode");
-    debugModeActive->addTransition(startDebugAction, SIGNAL(triggered(bool)), trafficLightActiveHistory);
-
-    machine->addState(trafficLightActive);
-    machine->addState(debugModeActive);
-    machine->addDefaultAnimation(new QPropertyAnimation(label, "styleSheet"));
-
-    machine->setInitialState(trafficLightActive);
-    machine->start();
+    if (okClicked && !text.isEmpty()) {
+        machine->postEvent(new PasswordEvent(text));
+    }
 }

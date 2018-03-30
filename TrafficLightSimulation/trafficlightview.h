@@ -24,6 +24,7 @@ class TrafficLightView : public QMainWindow
         ~TrafficLightView();
         QLabel* getStateOutputLabel();
         QAction* getDebugStartAction();
+        QAction* getDebugStopAction();
         void drawTrafficLights(TrafficLightColor* color);
 
     private:

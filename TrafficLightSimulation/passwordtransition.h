@@ -1,11 +1,27 @@
-#ifndef DEBUGPASSWORDTRANSITION_H
-#define DEBUGPASSWORDTRANSITION_H
+#ifndef PASSWORDTRANSITION_H
+#define PASSWORDTRANSITION_H
 
+#include "passwordevent.h"
 
-class DebugPasswordTransition : public QAbstractTransition
+#include <iostream>
+
+#include <QAbstractTransition>
+#include <QEvent>
+
+class PasswordTransition : public QAbstractTransition
 {
-public:
-    DebugPasswordTransition();
+    Q_OBJECT
+
+    public:
+        PasswordTransition(const QString& value);
+
+    protected:
+        virtual bool eventTest(QEvent* event);
+        virtual void onTransition(QEvent* event);
+
+    private:
+        QString value;
+
 };
 
-#endif // DEBUGPASSWORDTRANSITION_H
+#endif // PASSWORDTRANSITION_H

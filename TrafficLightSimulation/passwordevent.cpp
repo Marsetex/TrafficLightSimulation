@@ -1,6 +1,2 @@
-#include "debugpasswordevent.h"
+#include "passwordevent.h"
 
-DebugPasswordEvent::DebugPasswordEvent()
-{
-
-}

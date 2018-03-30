@@ -1,11 +1,18 @@
-#ifndef DEBUGPASSWORDEVENT_H
-#define DEBUGPASSWORDEVENT_H
+#ifndef PASSWORDEVENT_H
+#define PASSWORDEVENT_H
 
+#include <QEvent>
+#include <QString>
 
-class DebugPasswordEvent : public QEvent
+class PasswordEvent : public QEvent
 {
-public:
-    DebugPasswordEvent();
+    public:
+        PasswordEvent(const QString& value) : QEvent(QEvent::Type(QEvent::User+1))
+        {
+            this->value = value;
+        }
+        QString value;
+
 };
 
-#endif // DEBUGPASSWORDEVENT_H
+#endif // PASSWORDEVENT_H

@@ -34,6 +34,10 @@ QAction* TrafficLightView::getDebugStartAction() {
     return ui->menuItemStartDebug;
 }
 
+QAction* TrafficLightView::getDebugStopAction() {
+    return ui->menuItemStopDebug;
+}
+
 void TrafficLightView::drawTrafficLights(TrafficLightColor* color)
 {
     QBrush redBrush(*(color->getRedColor()), Qt::SolidPattern);
