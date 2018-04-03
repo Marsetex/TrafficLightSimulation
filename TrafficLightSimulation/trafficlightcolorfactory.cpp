@@ -22,8 +22,7 @@ TrafficLightColor* TrafficLightColorFactory::getTrafficLightColorStateRedYellow(
 
 TrafficLightColor* TrafficLightColorFactory::getTrafficLightColorStateGreen()
 {
-    TrafficLightColor* color = new TrafficLightColor(redOff, yellowOff, greenOn);
-    return color;
+    return new TrafficLightColor(redOff, yellowOff, greenOn);
 }
 
 TrafficLightColor* TrafficLightColorFactory::getTrafficLightColorStateYellow()

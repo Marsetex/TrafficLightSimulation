@@ -32,9 +32,9 @@ border: transparent;</string>
    <widget class="QLabel" name="stateOutputLabel">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>90</x>
       <y>20</y>
-      <width>101</width>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
