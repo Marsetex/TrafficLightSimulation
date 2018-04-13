@@ -2,11 +2,14 @@
 
 TrafficLight::TrafficLight(TrafficLightView* view, QObject* parent) : QObject(parent)
 {
+    setUpStateMachine(view);
+}
+
+void TrafficLight::setUpStateMachine(TrafficLightView* view)
+{
     QLabel* label = view->getStateOutputLabel();
     QAction* startDebugAction = view->getDebugStartAction();
     QAction* stopDebugAction = view->getDebugStopAction();
-
-
 
     // Erzeugung des Zustandsautomaten
     machine = new QStateMachine();
@@ -26,6 +29,7 @@ TrafficLight::TrafficLight(TrafficLightView* view, QObject* parent) : QObject(pa
 
     // Konfiguration des Uebergangs zu DebugMode
     connect(startDebugAction, SIGNAL(triggered(bool)), this, SLOT(startDebugClicked()));
+
     PasswordTransition* transition = new PasswordTransition("secret");
     transition->setTargetState(debugModeActive);
     trafficLightActive->addTransition(transition);
@@ -43,16 +47,16 @@ void TrafficLight::configureTrafficLightMachine(QState* trafficLightActive, Traf
     QLabel* label = view->getStateOutputLabel();
 
     TrafficLightColor* redOnColor = colorFactory->getTrafficLightColorStateRed();
-    TrafficLightState* redOn = new TrafficLightState(view, redOnColor, 1000, trafficLightActive);
+    TrafficLightState* redOn = new TrafficLightState(view, redOnColor, 5000, trafficLightActive);
 
     TrafficLightColor* redYellowOnColor = colorFactory->getTrafficLightColorStateRedYellow();
     TrafficLightState* redYellowOn = new TrafficLightState(view, redYellowOnColor, 2000, trafficLightActive);
 
     TrafficLightColor* greenOnColor = colorFactory->getTrafficLightColorStateGreen();
-    TrafficLightState* greenOn = new TrafficLightState(view, greenOnColor, 3000, trafficLightActive);
+    TrafficLightState* greenOn = new TrafficLightState(view, greenOnColor, 7000, trafficLightActive);
 
     TrafficLightColor* yellowOnColor = colorFactory->getTrafficLightColorStateYellow();
-    TrafficLightState* yellowOn = new TrafficLightState(view, yellowOnColor, 1000, trafficLightActive);
+    TrafficLightState* yellowOn = new TrafficLightState(view, yellowOnColor, 4000, trafficLightActive);
 
     redOn->assignProperty(label, "text", "Stop The Engine");
     redOn->addTransition(redOn, SIGNAL(finished()), redYellowOn);
@@ -72,7 +76,7 @@ void TrafficLight::configureTrafficLightMachine(QState* trafficLightActive, Traf
 void TrafficLight::startDebugClicked()
 {
     bool okClicked;
-    QString text = QInputDialog::getText(NULL, tr("Enter the password for debug mode"), tr("Password:"), QLineEdit::Normal, "", &okClicked);
+    QString text = QInputDialog::getText(NULL, tr("Enter the password for debug mode"), tr("Password:"), QLineEdit::Password, "", &okClicked);
 
     if (okClicked && !text.isEmpty()) {
         machine->postEvent(new PasswordEvent(text));

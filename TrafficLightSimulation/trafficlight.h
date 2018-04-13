@@ -26,6 +26,7 @@ class TrafficLight : public QObject
         explicit TrafficLight(TrafficLightView* view, QObject* parent = nullptr);
 
     private:
+        void setUpStateMachine(TrafficLightView* view);
         void configureTrafficLightMachine(QState* trafficLightActive, TrafficLightView* view);
         QStateMachine* machine;
 
