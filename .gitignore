@@ -33,3 +33,5 @@
 
 # Build directory
 build-TrafficLightSimulation-Desktop_Qt_5_10_1_MinGW_32bit-Debug/
+TrafficLightSimulation/TrafficLightSimulation.pro.user.*
+TrafficLightSimulation/TrafficLightSimulation.pro.user

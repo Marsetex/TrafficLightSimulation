@@ -32,9 +32,9 @@ border: transparent;</string>
    <widget class="QLabel" name="stateOutputLabel">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>70</x>
       <y>20</y>
-      <width>121</width>
+      <width>161</width>
       <height>20</height>
      </rect>
     </property>
@@ -60,7 +60,7 @@ border: transparent;</string>
      <x>0</x>
      <y>0</y>
      <width>300</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuTraffic_Light">
